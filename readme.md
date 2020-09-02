@@ -191,6 +191,147 @@ fi
 echo `expr index "$string" is`
 ```
 
+### 数组
+数组使用：
+`array_name=(v0 v1 v2 v3)`
+array_name=(
+v0
+v1
+v2
+v3
+)
+array_name[0]=v0
+array_name[1]=v1
+array_name[2]=v2
+
+读取数组某个值：
+${array_name[0]}
+读取所有值：
+${array_name[*]}
+${array_name[@]}
+获取数组元素个数：
+${#array_name[*]}
+${#array_name[@]}
+
+### 输入输出重定向
+>输出会覆盖文件内容
+echo "....just a  test" > myfile  
+>>追加到文件末尾
+echo "add a line " >> myfile
+计算users文件中的行数：
+wc -l < users
+高级用法。。。。
+
+### printf格式化输出
+类似c语言一模一样地用法。
+可以用单引号输出：
+printf '%d %s\n' 1 "ffdfd"
+也可以没有引号：
+printf %s ddf dfd
+
+### if then elif then else fi
+a=10
+b=20
+if [ $a == $b ]
+then echo "$a == $b"
+elif [ $a -gt $b ]
+then echo "$a >= $b"
+elif [ $a -le $b ]
+then echo "$a < $b"
+else echo  "error"
+fi
+
+### test用于配合if检查某个条件是否成立
+
+### case in esac 多分枝结构
+case可以匹配一个值或者一个模式。
+echo "please input nomber between 1 to 2:"
+read aNum
+case $aNum in
+	1) echo ”you select 1"
+	;;
+	2) echo "you select 2"
+	;;
+	3) echo "you select 3"
+	;;
+	*) echo "input error, please input nomber between 1 to 2."
+	;;
+esac
+
+option="${1}"
+case ${option} in
+	-f) file="${2}"
+		echo "file name is $file"
+	;;
+	-d) dir="${2}"
+		echo "dir name is $dir"
+	;;
+	*)
+		echo "`basename ${0}`:usage: [-f file] | [-d directory]"
+		# basename命令用于:去掉文件名的路径和后缀
+		exit 1
+	;;
+esac
+
+### for in do done 循环结构
+输出主目录下.base开头的文件：
+for file in $HOME/.base*
+do
+	echo $file
+done
+
+### while do done 循环结构
+counter=0
+while [ $counter -lt 5 ]
+do
+	counter='expr $counter+1'
+	echo "$counter"
+done
+until命令和while循环相反，条件为false时执行循环。
+continue跳出当前循环, break跳出循环。
+
+### 函数
+先定义后使用,可以嵌套使用.
+$n获取参数，但是$10 不能获取第十个参数，获取第十个参数需要${10}。当n>=10时，需要使用${n}来获取参数。
+fun1(){
+	echo "first parameter os $1" 
+	echo "parameter count $# "
+	echo "parameter all parameter $* "
+	echo "1..."
+	return "2"
+}
+#使用
+fun1
+ret=$?
+echo "fun1 return $ret"
+
+### 包括外部脚本 . filename 或者 source filename
+被包含的脚本不需要执行权限。
+1.sh
+url="www.baidu.com"
+2.sh
+#!/bin/bash
+. ./1.sh
+echo $url
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
